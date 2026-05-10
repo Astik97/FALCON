@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weapon Detection Log</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='detection/detected_weapons.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <h1>Weapon Detection Report</h1>
+  <div id="container">
+    <a href="{{ url_for('dashboard') }}" class="back-btn">← Back to Dashboard</a>
+  </div>
+  
+  <div id="detections" class="detection-container">
+    <p>Loading Detections</p>
+  </div>
+
+  <script>
+  let previousDetectionCount = -1; // Keep track of how many items we have
+
+    async function fetchDetections() {
+      try {
+        const res = await fetch('/api/detections');
+        const detections = await res.json();
+        const container = document.getElementById('detections');
+
+        // UX FIX: Only rebuild the DOM if new detections arrived!
+        if (detections.length === previousDetectionCount) {
+            return; // Exit early if nothing has changed
+        }
+        
+        previousDetectionCount = detections.length;
+        container.innerHTML = ''; // Only clear when we have new data to show
+
+        if (detections.length === 0) {
+          container.innerHTML = '<p>No detected weapons yet.</p>';
+          return;
+        }
+
+        detections.slice().reverse().forEach(det=> {
+          const card = document.createElement('div');
+          card.classList.add('detection-card');
+
+          // BUG 1 FIX: Use the paths exactly as they come from the updated database
+          const imageUrl = det.file; 
+          const videoUrl = det.video_file;
+          
+          // Start building the HTML card
+          let cardHTML = `
+          <div class="detection-info">
+            <h3> ${det.weapon_name} Detected</h3>
+            <p><strong>Confidence:</strong><span class="highlight"> ${det.confidence}</span></p>
+            <p><strong>Time:</strong> ${det.time}</p>
+            <p><strong>Camera:</strong> ${det.camera}</p>
+          </div>
+          <div class="detection-media">
+            <p class="media-label">Image:</p>
+            <img src="${imageUrl}" alt="Detected Weapon Image" class="detection-image" height="240px" width="320px">
+          </div>
+          `;
+
+          // BUG 2 FIX: Conditionally add the video player ONLY if a video URL exists
+          if (videoUrl && videoUrl !== "null" && videoUrl !== "None") {
+              cardHTML += `
+              <div class="detection-media">
+                <p class="media-label">Video:</p>
+                <video controls class="detection-video" height="240px" width="320px">
+                  <source src="${videoUrl}" type="video/webm">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+              `;
+          }
+
+          // Inject the combined HTML into the card
+          card.innerHTML = cardHTML;
+          container.appendChild(card);
+        });
+        
+      } catch (error) {
+        console.error('Error loading detections:', error);
+      }
+    }
+
+    // Fetch immediately, then every 3 seconds
+    fetchDetections();
+    setInterval(fetchDetections, 3000);
+  </script>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+
+</body>
+</html>

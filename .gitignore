@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environment
+venv/
+
+# Environment variables
+.env
+
+# VS Code
+.vscode/
+
+# Database
+*.db
+*.sqlite3
+
+# Media (optional)
+media/
+
+# Large ML files
+*.pt
+*.weights
+*.onnx
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Dataset Detection Files
+train_detect_weapons/runs
+train_detect_weapons/test
+train_detect_weapons/train
+train_detect_weapons/valid

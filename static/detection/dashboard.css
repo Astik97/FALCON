@@ -1,0 +1,850 @@
+/* ===== Global Styles ===== */
+:root {
+    --bg-darkest: #0d1b2a;  /* Dark navy background */
+    --bg-dark: #1b263b;      /* Lighter navy for form/card container */
+    --bg-medium: #2a3d58;    /* Slightly lighter for some elements (e.g., active sidebar item) */
+    --primary-blue: #4169E1; /* Royal blue for buttons/links/accents */
+    --primary-hover: #5a8eff; /* Lighter blue for hover */
+    --text-light: #f0f0f0;   /* Light grey/white text */
+    --text-secondary: #a0a0a0; /* Grey for subtitles/less important text */
+    --border-color: #4169E1; /* Border focus color */
+    --error-red: #ff6b6b;      /* Error message color */
+    --success-green: #2ecc71; /* System Health green */
+    --warning-orange: #f39c12; /* Active Alerts orange */
+    --card-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* ADD THIS RIGHT AFTER :root */
+body.light-theme {
+    --bg-darkest: #f4f6f9;    /* Light grayish-blue background */
+    --bg-dark: #ffffff;       /* Pure white for cards and sidebars */
+    --bg-medium: #e2e8f0;     /* Light gray for active/hover states */
+    --primary-blue: #2563eb;  /* Slightly darker blue for contrast */
+    --text-light: #1e293b;    /* Dark gray text (replacing white) */
+    --text-secondary: #64748b;/* Medium gray text */
+    --card-shadow: rgba(0, 0, 0, 0.05); /* Softer shadow */
+}
+
+/* ADD THIS TO SMOOTH OUT THE THEME TRANSITION */
+body, .sidebar, .top-header, .sub-header, .card, input, select {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* ADD BUTTON STYLING FOR THE TOGGLE */
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s;
+}
+.theme-toggle-btn:hover {
+    color: var(--primary-blue);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-darkest);
+  color: var(--text-light);
+  display: flex; /* For login/register pages */
+  justify-content: center; /* For login/register pages */
+  align-items: center; /* For login/register pages */
+  min-height: 100vh;
+  padding: 0; /* Adjusted for dashboard full height */
+  overflow-x: hidden;
+}
+
+/* ===== Header ===== */
+.top-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--bg-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centers the title */
+  padding: 0.5rem 1rem;
+  z-index: 10;
+}
+
+.menu-toggle {
+  position: fixed;
+  left: 15px;
+  font-size: 15px;
+  color: #5a8dee;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.page-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #5a8dee;
+  margin: 0;
+  text-align: center;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  position: fixed;
+  top: 50px;
+  left: -1000px;
+  width: 200px;
+  height: 100%;
+  background-color: var(--bg-dark);
+  border-right: 1px solid var(--bg-medium);
+  transition: left 0.3s ease;
+  z-index: 1;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar.active {
+  left: 10px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;  /* Add a scrollbar *only* when needed */
+  flex-grow: 1;
+}
+
+.sidebar ul li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px 20px;
+}
+
+.sidebar ul li a {
+  display: block;
+  padding: 15px 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar ul li a i {
+  margin-right: 10px;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background-color: var(--bg-medium);
+  border-radius: 5px;
+  color: var(--primary-blue);
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  z-index: 1000;
+}
+
+#overlay.active {
+  display: block;
+}
+
+/* ===== Main Content ===== */
+.main-content {
+  margin-top: 60px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.sidebar.active ~ .main-content {
+  margin-left: 250px;
+}
+
+/* ===== Responsive Design ===== */
+@media (min-width: 768px) {
+  .page-title {
+    font-size: 1rem;
+  }
+  .sidebar {
+    width: 200px;
+  }
+  .sidebar.active ~ .main-content {
+    margin-left: 250px;
+  }
+  #overlay {
+    display: none !important;
+  }
+}
+
+/* --- General Card Styling (used on Dashboard) --- */
+.overview-cards .card {
+    background-color: var(--bg-dark);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px var(--card-shadow);
+    display: flex; /* Default flex for vertical content */
+    flex-direction: column;
+    color: var(--text-light);
+}
+
+.overview-cards .card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+}
+
+.chart-image{
+    width: 60px; /* Fixed width for the image */
+    height: 60px; /* Fixed height for the image */
+    object-fit: contain; /* Ensures the whole image fits without cropping */
+    display: block; /* Removes extra space below image */
+    filter: invert(0);
+    float: right;
+}
+
+/* --- Login/Register Page Specific Styles --- */
+.auth-container {
+    background-color: var(--bg-dark);
+    padding: 2.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px var(--card-shadow);
+    width: 100%;
+    max-width: 450px;
+    margin: 20px; /* Added margin for smaller screens */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--text-light);
+}
+
+.system-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.input-group {
+    margin-bottom: 1.25rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-blue);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+.input-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--bg-dark);
+    border-radius: 5px;
+    background-color: var(--bg-darkest);
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--primary-hover);
+}
+
+.form-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.form-link a {
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-link a:hover {
+    text-decoration: underline;
+}
+
+/* --- Dashboard Layout --- */
+.dashboard-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-darkest);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--bg-dark);
+    padding: 1.5rem 0;
+    box-shadow: 5px 0 15px var(--card-shadow);
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+}
+
+.sidebar .logo {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 0 1.5rem;
+    color: var(--primary-blue);
+}
+
+.sidebar .main-nav ul {
+    list-style: none;
+}
+
+.sidebar .main-nav li {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    border-left: 5px solid transparent; /* For active state */
+}
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: var(--bg-medium);
+    color: var(--primary-blue);
+    border-left: 5px solid var(--primary-blue);
+}
+
+/* Main Content Area */
+.main-content {
+    flex-grow: 1; /* Allows main content to take remaining space */
+    padding: 1.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Spacing between sections */
+}
+
+/* Top Header */
+.sub-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-dark);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--card-shadow);
+}
+
+.sub-header .search-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-darkest);
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+}
+
+.sub-header .search-bar i {
+    color: var(--text-secondary);
+    margin-right: 10px;
+}
+
+.sub-header .search-bar input {
+    border: none;
+    background: none;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    padding: 0.2rem 0;
+    width: 250px; /* Adjust as needed */
+}
+
+.sub-header .search-bar input::placeholder {
+    color: var(--text-secondary);
+}
+
+.sub-header .search-bar input:focus {
+    outline: none;
+}
+
+.sub-header .user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.sub-header .user-info span {
+    font-weight: 500;
+}
+
+.sub-header .user-info i {
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.3s;
+}
+
+.sub-header .user-info i:hover {
+    color: var(--primary-blue);
+}
+
+.sub-header .logout-btn {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+}
+
+/* Overview Cards */
+.overview-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.overview-cards .card {
+    text-align: left; /* Align card content to left */
+}
+
+.overview-cards .card-value {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.overview-cards .card-subtext {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.overview-cards .card-chart {
+    background-color: var(--bg-darkest); /* Placeholder for chart background */
+    height: 50px;
+    border-radius: 5px;
+    margin-top: 1rem;
+    /* Basic gradient for visual effect, replace with actual charts */
+    background: linear-gradient(to right, var(--primary-blue), var(--primary-blue) 30%, var(--bg-medium) 70%);
+}
+
+.overview-cards .system-health .card-value {
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--success-green);
+}
+
+.overview-cards .system-health .card-value i {
+    font-size: 1.3rem;
+}
+
+.overview-cards .active-alerts .card-value {
+    color: var(--warning-orange);
+}
+
+.overview-cards .detected-weapons .card-chart {
+    background: linear-gradient(to right, var(--primary-blue), var(--primary-blue) 60%, var(--bg-medium) 80%);
+}
+
+/* Section Two: Recent Alerts & Live Map */
+.dashboard-section-two {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr; /* Recent alerts wider than map */
+    gap: 1.5rem;
+}
+
+.recent-alerts table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.recent-alerts th, .recent-alerts td {
+    padding: 0.8rem 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--bg-darkest);
+    font-size: 0.9rem;
+}
+
+.recent-alerts th {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.recent-alerts td a {
+    color: var(--primary-blue);
+    text-decoration: none;
+}
+
+.recent-alerts td a:hover {
+    text-decoration: underline;
+}
+
+.recent-alerts .btn.view-all-btn {
+    width: auto;
+    padding: 0.6rem 1.2rem;
+    margin-top: 1.5rem;
+    align-self: flex-start; /* Align button to the start */
+    font-size: 0.9rem;
+}
+
+.live-map .map-placeholder {
+    background-color: var(--bg-darkest);
+    border-radius: 8px;
+    height: 250px; /* Adjust height for map */
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    overflow: hidden; /* Ensure image fits */
+}
+
+.live-map .map-legend {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.live-map .map-legend div {
+    display: flex;
+    align-items: center;
+}
+
+.live-map .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.live-map .legend-dot.active-serious { background-color: var(--error-red); }
+.live-map .legend-dot.active-concern { background-color: var(--warning-orange); }
+.live-map .legend-dot.active-alerts { background-color: var(--primary-blue); }
+
+.detected-weapon-images {
+    width: 100%;
+}
+
+.detected-weapon-images .card-header-with-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap; /* Allow controls to wrap */
+    gap: 1rem; /* Spacing for wrapping items */
+}
+
+.detected-weapon-images .controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.detected-weapon-images .controls span {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.detected-weapon-images .controls select {
+    background-color: var(--bg-darkest);
+    color: var(--text-light);
+    border: 1px solid var(--bg-medium);
+    border-radius: 5px;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.detected-weapon-images .controls .mark-false-positive-btn {
+    width: auto;
+    padding: 0.6rem 1rem;
+    background-color: transparent;
+    border: 1px solid var(--error-red);
+    color: var(--error-red);
+    font-weight: normal;
+}
+
+.detected-weapon-images .controls .mark-false-positive-btn:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+    color: var(--error-red); /* Keep text color same */
+}
+
+.image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Adjust minmax as needed */
+    gap: 1rem;
+}
+
+.weapon-image-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: var(--bg-darkest);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.weapon-image-item img {
+    width: 100%;
+    height: 100px; /* Fixed height for consistency */
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.weapon-image-item:hover img {
+    transform: scale(1.05);
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background */
+    color: white;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+}
+
+.image-overlay .timestamp {
+    font-weight: bold;
+}
+
+.image-overlay .location {
+    color: var(--text-secondary);
+}
+
+.image-overlay .overlay-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s;
+}
+
+.image-overlay .overlay-btn:hover {
+    background-color: var(--primary-blue);
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.pagination span {
+    margin: 0 5px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.pagination span:hover {
+    color: var(--primary-blue);
+}
+.pagination span:nth-child(1) {
+    font-weight: bold;
+    color: var(--primary-blue);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 1200px) {
+    .dashboard-section-two {
+        grid-template-columns: 1fr; /* Stack recent alerts and map */
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column; /* Stack sidebar and main content */
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 1rem 0;
+        box-shadow: 0 5px 15px var(--card-shadow);
+    }
+
+    .sidebar .logo {
+        margin-bottom: 1rem;
+    }
+
+    .sidebar .main-nav ul {
+        display: flex;
+        flex-wrap: wrap; /* Allow nav items to wrap */
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0 10px;
+    }
+
+    .sidebar .main-nav li {
+        margin-bottom: 0;
+    }
+
+    .sidebar .nav-link {
+        padding: 0.6rem 1rem;
+        border-left: none; /* Remove left border for stacked nav */
+        border-bottom: 3px solid transparent; /* Use bottom border for active */
+    }
+
+    .sidebar .nav-link.active {
+        border-left: none;
+        border-bottom: 3px solid var(--primary-blue);
+    }
+
+    .main-content {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .top-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .top-header .search-bar input {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .top-header .user-info {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .overview-cards {
+        grid-template-columns: 1fr; /* Stack all overview cards */
+    }
+
+    .detected-weapon-images .card-header-with-controls {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .detected-weapon-images .controls {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    .detected-weapon-images .controls select,
+    .detected-weapon-images .controls .mark-false-positive-btn {
+        width: 100%;
+    }
+
+    .image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Adjust image grid for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 1.5rem;
+    }
+    .sidebar .main-nav ul {
+        flex-direction: column; /* Stack nav items on very small screens */
+    }
+    .top-header .search-bar input {
+        width: 100%;
+    }
+    .image-grid {
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    }
+}
+
+.sidebar-logo {
+    padding: 1.5rem 1rem; /* Adds spacing around the logo */
+    text-align: center;   /* Centers the image */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Adds a nice separator line */
+}
+
+.sidebar-logo img {
+    width: 100px;  /* Set the width of the logo */
+    height: auto;  /* Maintain aspect ratio */
+}
+
+/* Ensure videos match your image dimensions */
+.weapon-image-item video {
+    width: 100%;
+    height: 100px; /* Match your .weapon-image-item img height */
+    object-fit: cover;
+    display: block;
+    background: #000;
+}
+
+/* IMPORTANT: This prevents the overlay from blocking the Play button */
+.weapon-image-item.is-video .image-overlay {
+    pointer-events: none; 
+    background: linear-gradient(transparent, rgba(0,0,0,0.8)); /* Better visibility */
+    height: 40px; /* Slimmer overlay for videos */
+}
+
+/* Allow the video itself to be clickable even if the overlay is visible */
+.weapon-image-item.is-video video {
+    position: relative;
+    z-index: 1;
+}
+
+.weapon-image-item.is-video .image-overlay {
+    z-index: 2;
+}

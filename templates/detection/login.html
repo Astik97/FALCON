@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Crime Alert System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='detection/style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Falcon Security Logo">
+    </div>
+            <h1>Login</h1>
+            <p class="system-title">Crime Alert & Reporting System</p>
+
+            <form id="login-form" method="POST" action="{{ url_for('login') }}">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="text" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label> 
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div id="error-message">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                    {% for category, message in messages %}
+                        <p class="msg-{{ category }}">{{ message }}
+                        </p>
+                    {% endfor %}
+                  {% endif %}
+                {% endwith %}
+            </div>
+                <!-- <input type="hidden" name="next" value="{{ next }}"> -->
+                <button type="submit" class="btn">Login</button>
+                <p class="form-link">
+                    <a href="{{url_for('dashboard')}}"></a>
+                </p>
+            </form>
+            <p class="form-link">
+                Don't have an account? <a href="{{url_for('register')}}">Register here</a>
+            </p> 
+        </div>
+</body>
+</html>

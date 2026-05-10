@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alerts - Crime Alert System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* 1. DEFINE THEME VARIABLES */
+    :root {
+      --bg-darkest: #0b1e3d;
+      --bg-card: #12273f;
+      --text-main: #ffffff;
+      --text-heading: #8fbaff;
+      --input-bg: #0f2340;
+      --input-border: #223344;
+      --btn-bg: #2d7cff;
+      --table-border: rgba(255,255,255,0.05);
+      --text-small: #cfe3ff;
+      --text-muted: #9fb2d9;
+      --link-color: #00aaff;
+    }
+
+    body.light-theme {
+      --bg-darkest: #f4f6f9;
+      --bg-card: #ffffff;
+      --text-main: #1e293b;
+      --text-heading: #1e40af;
+      --input-bg: #f8fafc;
+      --input-border: #cbd5e1;
+      --btn-bg: #2563eb;
+      --table-border: rgba(0,0,0,0.1);
+      --text-small: #475569;
+      --text-muted: #64748b;
+      --link-color: #2563eb;
+    }
+
+    /* 2. APPLY VARIABLES WITH SMOOTH TRANSITIONS */
+    body, .card, input, textarea, button, th, td {
+      transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+    }
+
+    body { 
+      background: var(--bg-darkest); 
+      color: var(--text-main); 
+      font-family: Arial, sans-serif; 
+      padding: 20px; 
+    }
+
+    .card { 
+      background: var(--bg-card); 
+      padding: 18px; 
+      border-radius: 10px; 
+      max-width: 900px; 
+      margin: auto; 
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+    }
+    
+    /* Header layout */
+    .header-container { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 20px; 
+    }
+
+    h1 { 
+      color: var(--text-heading); 
+      margin: 0; 
+    }
+    
+    form { 
+      display: flex; 
+      gap: 10px; 
+      align-items: flex-start; 
+      margin-bottom: 20px; 
+      flex-wrap: wrap; 
+    }
+
+    input, textarea { 
+      padding: 10px; 
+      border-radius: 6px; 
+      border: 1px solid var(--input-border); 
+      background: var(--input-bg); 
+      color: var(--text-main); 
+      min-width: 220px; 
+    }
+    
+    button.send-btn { 
+      padding: 10px 16px; 
+      border-radius: 6px; 
+      border: none; 
+      background: var(--btn-bg); 
+      color: white; 
+      cursor: pointer; 
+      font-weight: bold; 
+    }
+    button.send-btn:hover { 
+      opacity: 0.9; 
+    }
+
+    table { 
+      width: 100%; 
+      border-collapse: 
+      collapse; margin-top: 15px; 
+    }
+
+    th, td { 
+      padding: 8px 10px; 
+      text-align: left; 
+      border-bottom: 1px solid var(--table-border); 
+      font-size: 14px; 
+    }
+    
+    .small { 
+      font-size: 13px; 
+      color: var(--text-small); 
+    }
+
+    .muted { 
+      color: var(--text-muted); 
+      font-size: 13px; 
+    }
+    
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--link-color);
+      text-decoration: none;
+      font-weight: 500;
+      text-align: center;
+      width: 100%;
+    }
+
+    .back-link:hover { 
+      text-decoration: underline; 
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    
+    <div class="header-container">
+      <h1>Send Alert</h1>
+    </div>
+
+    <form id="manualForm" onsubmit="return false;">
+      <input type="text" id="phone" placeholder="+91XXXXXXXXXX" required>
+      <textarea id="message" rows="2" placeholder="Alert message..."></textarea>
+      <button id="sendBtn" class="send-btn">Send Alert</button>
+      <div id="sendStatus" class="muted"></div>
+    </form>
+
+    <h2 class="small">Sent Alerts History</h2>
+    <div id="historyContainer">
+      <table id="historyTable">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Phone</th>
+            <th>Method</th>
+            <th>Message</th>
+            <th>SID</th>
+          </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </div>
+    <a href="{{ url_for('dashboard') }}" class="back-link">⬅ Back to Dashboard</a>
+  </div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<script src="{{ url_for('static', filename='js/alerts.js') }}"></script>
+  
+</body>
+</html>
