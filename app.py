@@ -3,7 +3,8 @@ import os
 import sqlite3
 import threading
 import json
-from database import get_all_detections, init_db, insert_detection
+from database import get_all_detections, insert_detection
+from database import init_detection_db
 import time, datetime
 from twilio_alert import send_alert_message
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -23,7 +24,7 @@ def get_user_db():
     conn.row_factory = sqlite3.Row
     return conn
 
-def init_db():
+def init_user_db():
     conn = get_user_db()
     # Create table matching your Register HTML fields
     conn.execute('''
@@ -38,7 +39,8 @@ def init_db():
     conn.close()
 
 # Initialize DB on startup
-init_db()
+init_user_db()
+init_detection_db()
 
 alert_history = []
 
