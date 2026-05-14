@@ -4,7 +4,7 @@ import sqlite3
 import threading
 import json
 from database import get_all_detections, insert_detection
-from database import init_detection_db
+from database import init_db as init_detection_db
 import time, datetime
 from twilio_alert import send_alert_message
 from werkzeug.security import generate_password_hash, check_password_hash
