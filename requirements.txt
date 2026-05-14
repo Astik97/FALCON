@@ -1,6 +1,6 @@
 setuptools
 wheel
-python-3.11.9
+python==3.11.9
 Flask==3.0.3
 gunicorn==23.0.0
 numpy==1.24.4
