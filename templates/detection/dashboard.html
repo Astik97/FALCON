@@ -86,7 +86,7 @@
                 <div class="card system-health">
                     <h3>System Health</h3>
                     <p class="card-value"><i class="fas fa-check-circle"></i> AI Systems Operational</p>
-                    <p class="card-subtext">Last Checked: 10:30 AM</p>
+                    <p class="card-subtext" id="system-time">Last Checked: Updating...</p>
                 </div>
             </section>
 
@@ -168,6 +168,19 @@
         <div id="overlay"></div>
     </div>
     <script>
+        function updateSystemTime() {
+        const timeElement = document.getElementById('system-time');
+        const now = new Date();
+        
+        // This formats the time to look like "10:30 AM" instead of a long messy string
+        const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        timeElement.innerText = `Last Checked: ${timeString}`;
+    }
+
+    // Run the function immediately when the page loads
+    updateSystemTime();
+
     // ==========================================
     // === 1. THIS IS THE NEW FUNCTION YOU NEED ===
     // ==========================================
@@ -233,6 +246,7 @@
         btn.innerText = "Start Detection";
         btn.disabled = false;
     }
+
     let page = 0;
     const pageSize = 12;
     let allFiles = [];
@@ -293,11 +307,13 @@
     
     // This was your existing line
     setInterval(loadFiles, 3000);
+
     // Add this new line to update stats
     setInterval(updateDashboardStats, 3000); 
 
     // This was your existing line
     loadFiles();
+
     // Add this new line to load stats on page load
     updateDashboardStats(); 
 </script>
