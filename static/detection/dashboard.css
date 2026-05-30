@@ -76,18 +76,24 @@ body {
   display: flex;
   align-items: center;
   justify-content: center; /* Centers the title */
-  padding: 0.5rem 1rem;
+  padding: 1rem 1rem;
   z-index: 10;
 }
 
 .menu-toggle {
-  position: fixed;
-  left: 15px;
+  position: static;
+  left: 10px;
   font-size: 15px;
   color: #5a8dee;
   cursor: pointer;
   background: none;
   border: none;
+}
+
+.top-header h1 {
+  margin: 0;
+  font-size: 1.5rem; /* Slightly smaller so it fits better on mobile */
+  flex-grow: 1; /* Pushes everything else to the right */
 }
 
 .page-title {
@@ -170,7 +176,7 @@ body {
 
 /* ===== Main Content ===== */
 .main-content {
-  margin-top: 60px;
+  margin-top: 80px;
   padding: 20px;
   transition: margin-left 0.3s ease;
 }
@@ -715,6 +721,10 @@ h1 {
 }
 
 @media (max-width: 768px) {
+    .main-content {
+    margin-top: 100px; /* Larger margin for mobile screens where title drops to 2 lines */
+  }
+
     .dashboard-container {
         flex-direction: column; /* Stack sidebar and main content */
     }
