@@ -92,7 +92,7 @@ body {
 
 .top-header h1 {
   margin: 0;
-  font-size: 1.5rem; /* Slightly smaller so it fits better on mobile */
+  font-size: 2 rem; /* Slightly smaller so it fits better on mobile */
   flex-grow: 1; /* Pushes everything else to the right */
 }
 
