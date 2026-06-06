@@ -7,8 +7,8 @@ def main():
 
 # Train the model on your custom dataset
     model.train(
-    data="C:\\Users\\biswa\\Desktop\\dataset\\data.yaml",
-    # data="A:\\weapon_detection_2\\train_detect_weapons\\data.yaml",
+    # data="C:\\Users\\biswa\\Desktop\\dataset\\data.yaml",
+    data="A:\\weapon_detection\\train_detect_weapons\\data.yaml",
     epochs=50,
     imgsz=640,
     device=0
