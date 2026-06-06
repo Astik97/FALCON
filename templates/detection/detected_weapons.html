@@ -38,13 +38,15 @@
           return;
         }
 
-        detections.slice().reverse().forEach(det=> {
+      detections.slice().reverse().forEach(det=> {
           const card = document.createElement('div');
           card.classList.add('detection-card');
 
-          // BUG 1 FIX: Use the paths exactly as they come from the updated database
-          const imageUrl = det.file; 
-          const videoUrl = det.video_file;
+          // BUG 1 FIX: Prepend the correct Flask route to the filename
+          const rawImageName = det.file;
+          const rawVideoName = det.video_file;
+          
+          const imageUrl = `/media/output/${rawImageName}`; 
           
           // Start building the HTML card
           let cardHTML = `
@@ -60,8 +62,11 @@
           </div>
           `;
 
-          // BUG 2 FIX: Conditionally add the video player ONLY if a video URL exists
-          if (videoUrl && videoUrl !== "null" && videoUrl !== "None") {
+          // BUG 2 FIX: Safely check for video, and prepend the route ONLY if it exists
+          if (rawVideoName && rawVideoName !== "null" && rawVideoName !== "None") {
+
+              const videoUrl = `/media/output/${rawVideoName}`;
+
               cardHTML += `
               <div class="detection-media">
                 <p class="media-label">Video:</p>
@@ -88,7 +93,8 @@
     setInterval(fetchDetections, 3000);
   </script>
 
-<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<script src="{{ url_for('static', filename='js/theme.js') }}">
+</script>
 
 </body>
 </html>

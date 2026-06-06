@@ -7,6 +7,7 @@ from twilio_alert import send_alert_message
 from database import init_db, insert_detection
 
 MODEL_PATH = "C:\\Users\\biswa\\Desktop\\dataset\\runs\\detect\\train\\weights\\best.pt"
+# MODEL_PATH = "A:\\weapon_detection_2\\train_detect_weapons\\runs\\detect\\train3\\weights\\best.pt"
 model = YOLO(MODEL_PATH)
 
 init_db()  # Initialize the database at the start of the program
@@ -15,6 +16,7 @@ OUTPUT_DIR = os.path.join(os.getcwd(), "media", "output")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 FPS = 10.0
+# FPS = 5.0
 VIDEO_DURATION_SEC = 5  # record 5 seconds after detection
 fourcc = cv2.VideoWriter_fourcc(*'VP90')
 
@@ -69,6 +71,7 @@ while True:
                     filepath=filename,
                     video_path=video_filename
                     )
+                
                     # ---------- AUTOMATIC SMS ALERT ----------
             # Only send SMS for labels that indicate a weapon.
             # Adjust the list below to match your model's label names.

@@ -70,24 +70,24 @@ body {
 .top-header {
   position: fixed;
   top: 0;
-  left: 0;
+  /* left: 0; */
   width: 100%;
   background-color: var(--bg-dark);
   display: flex;
   align-items: center;
   justify-content: center; /* Centers the title */
-  padding: 1rem 1rem;
+  padding: 15px 15px;
   z-index: 10;
 }
 
 .menu-toggle {
   position: static;
-  left: 10px;
   font-size: 15px;
   color: #5a8dee;
   cursor: pointer;
   background: none;
   border: none;
+  margin-right: 10px;
 }
 
 .top-header h1 {
@@ -97,7 +97,7 @@ body {
 }
 
 .page-title {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: bold;
   color: #5a8dee;
   margin: 0;
@@ -722,8 +722,8 @@ h1 {
 
 @media (max-width: 768px) {
     .main-content {
-    margin-top: 100px; /* Larger margin for mobile screens where title drops to 2 lines */
-  }
+        margin-top: 100px;
+    }
 
     .dashboard-container {
         flex-direction: column; /* Stack sidebar and main content */
