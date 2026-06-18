@@ -158,9 +158,9 @@ Open in browser:http://127.0.0.1:5000
 **Astik Mohapatra**
 B.Tech Computer Science Engineering  
 Government College of Engineering Keonjhar (CGPA: 8.1/10, 2026)  
-   astikm7007@gmail.com  
-   https://linkedin.com/in/astik-mohapatra  
-   https://github.com/Astik97
+astikm7007@gmail.com  
+https://linkedin.com/in/astik-mohapatra  
+https://github.com/Astik97
 
 ---
 
