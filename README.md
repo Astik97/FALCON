@@ -156,9 +156,14 @@ Open in browser:http://127.0.0.1:5000
 ## Author
 
 **Astik Mohapatra**
+astikm7007@gmail.com
+https://linkedin.com/in/astik-mohapatra
+https://github.com/Astik97
 
 ---
 
 ## ⭐ If you like this project
 
 Give it a ⭐ on GitHub and share!
+
+---
