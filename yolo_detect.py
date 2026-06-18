@@ -7,7 +7,7 @@ from twilio_alert import send_alert_message
 from database import init_db, insert_detection
 
 # MODEL_PATH = "C:\\Users\\biswa\\Desktop\\dataset\\runs\\detect\\train\\weights\\best.pt"
-MODEL_PATH = "A:\\weapon_detection\\train_detect_weapons\\runs\\detect\\train3\\weights\\best.pt"
+MODEL_PATH = "A:\\weapon_detection_2\\train_detect_weapons\\runs\\detect\\train3\\weights\\best.pt"
 model = YOLO(MODEL_PATH)
 
 init_db()  # Initialize the database at the start of the program
