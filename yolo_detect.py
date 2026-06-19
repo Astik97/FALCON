@@ -7,7 +7,14 @@ from twilio_alert import send_alert_message
 from database import init_db, insert_detection
 
 
-MODEL_PATH = "custom_path_best.pt"  # Path to your trained YOLO model weights
+MODEL_PATH = os.path.join (
+    "train_detect_weapons",
+    "runs",
+    "detect",
+    "train3",
+    "weights",
+    "best.pt"
+)  # Path to your trained YOLO model weights
 model = YOLO(MODEL_PATH)
 
 init_db()  # Initialize the database at the start of the program

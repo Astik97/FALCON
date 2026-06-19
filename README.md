@@ -55,9 +55,12 @@ It integrates computer vision, backend systems, and a web dashboard to monitor, 
 ### Accuracy
 
 - Model: YOLOv8 (Custom Trained)
-- mAP@0.5: **~85% – 92%**
-- Precision: **~88%**
-- Recall: **~83%**
+- mAP@0.5: **~81%**
+- Precision: **~85%**
+- Recall: **~75%**
+- Epochs: **~50**
+- FPS: **~10**
+- Dataset Size: **~9,633** Images
 
 ### Latency
 
