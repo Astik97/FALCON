@@ -1,6 +1,6 @@
-train: folder_path\weapon_detection\train\images
-val: folder_path\weapon_detection\valid\images
-test: folder_path\weapon_detection\test\images
+train: C:\\Users\\PATI\\Desktop\\weapon_detection\\train\\images
+val:  C:\\Users\\PATI\\Desktop\\weapon_detection\\valid\\images
+test: C:\\Users\\PATI\\Desktop\\weapon_detection\\test\\images
 
 nc : 5
 names: [ 'Grenade','Knife','Missile','Pistol','Rifle']

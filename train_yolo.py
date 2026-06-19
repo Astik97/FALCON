@@ -8,7 +8,7 @@ def main():
 
 # Train the model on your custom dataset
     model.train (
-    data="custom_path_data.yaml",  # path to your dataset configuration file
+    data="train_detect_weapons/data.yaml",  # path to your dataset configuration file
     epochs=50,
     imgsz=640,
     device=0
