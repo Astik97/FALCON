@@ -2,7 +2,7 @@ from flask import (Flask, render_template, jsonify, send_from_directory,url_for,
 import os
 import sqlite3
 import threading
-import json
+from yolo_detect import run_yolo_detection as yolo_detection_runner
 from database import get_all_detections, insert_detection
 from database import init_db as init_detection_db
 import time, datetime
@@ -11,13 +11,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from twilio.rest import Client
 from dotenv import load_dotenv
 
+load_dotenv()
+
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
 USER_DB = "add_users.db"
 
 os.makedirs('media/output', exist_ok=True) # Ensure output folder exists
-load_dotenv()
 
 def get_user_db():
     conn = sqlite3.connect(USER_DB)    
@@ -83,17 +84,12 @@ def api_login():
     conn.close()
     
     # 1. Check if user exists and password is correct
-    if not user or user['password'] != password:
+    if not user or not check_password_hash(user['password'], password):
         return jsonify({"error": "Invalid email or password."}), 401
         
-    # 2. THE GATEKEEPER: Check if admin has approved them
-    if user['is_approved'] == 0:
-        return jsonify({"error": "Your account is pending Admin approval."}), 403
-        
-    # 3. Success! Let them in.
+    # 2. Success! Let them in.
     return jsonify({
-        "message": f"Welcome back, {user['name']}!",
-        "is_admin": user['is_admin'] == 1
+        "message": f"Welcome back, {user['fullname']}!",
     }), 200
 
 @app.route('/register',methods=['GET','POST'])
@@ -110,10 +106,10 @@ def register():
             return redirect(url_for('register'))
 
         conn = get_user_db()
-        cur = conn.cursor()
+        cursor = conn.cursor()
 
         # 2. Check if email already exists
-        existing_user = cur.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+        existing_user = cursor.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
 
         if existing_user:
             flash("User already exists! Please login.", "error")
@@ -121,7 +117,7 @@ def register():
         else:
             # 3. Hash password and save
             hashed_pw = generate_password_hash(password)
-            cur.execute('INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)',
+            cursor.execute('INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)',
                         (fullname, email, hashed_pw))
             conn.commit()
             conn.close()
@@ -132,7 +128,7 @@ def register():
 @app.route('/api/register', methods=['POST'])
 def api_register():
     data = request.json
-    name = data.get('name') # You called this Full name in HTML
+    fullname = data.get('fullname') # You called this Full name in HTML
     email = data.get('email')
     password = data.get('password')
     confirm_password = data.get('confirm_password')
@@ -144,10 +140,12 @@ def api_register():
     cursor = conn.cursor()
     try:
         # Insert the new user. is_approved and is_admin will automatically be 0
+        hashed_pw = generate_password_hash(password)
         cursor.execute('''
-            INSERT INTO users (name, email, password)
+            INSERT INTO users (fullname, email, password)
             VALUES (?, ?, ?)
-        ''', (name, email, password))
+        ''', (fullname, email, hashed_pw))
+
         conn.commit()
         return jsonify({"message": "Registration successful! Please wait for admin approval."}), 200
     except sqlite3.IntegrityError:
@@ -161,8 +159,7 @@ if not os.path.exists(MEDIA_OUTPUT_FOLDER):
     os.makedirs(MEDIA_OUTPUT_FOLDER)
 
 def run_yolo_detection():
-    from yolo_detect import run_yolo_detection
-    run_yolo_detection()
+    yolo_detection_runner()
 
 # Dashboard route
 @app.route('/dashboard')
@@ -266,7 +263,8 @@ def send_alert():
         
         # C. Save to SQLite Database
         conn = get_alerts_db()
-        conn.execute('''
+        cursor = conn.cursor()
+        cursor.execute('''
             INSERT INTO alerts_table (time, phone, method, message, sid)
             VALUES (?, ?, ?, ?, ?)
         ''', (current_time, phone, 'Automated (Pi)', message, twilio_msg.sid))
@@ -288,8 +286,8 @@ def receive_alert():
 
         file_timestamp = int(time.time())
 
-        image_path = None
-        video_path = None
+        db_image_url = None
+        db_video_url = None
 
         # -------- IMAGE --------
         if 'image' in request.files:
