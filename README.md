@@ -5,7 +5,7 @@
 <h1 align="center">🦅 FALCON</h1>
 
 <h3 align="center">
-AI-Powered Crime Detection & Emergency Alert System
+Automatic Crime Alert and Reporting System
 </h3>
 
 <p align="center">
