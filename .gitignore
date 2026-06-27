@@ -16,8 +16,6 @@ venv/
 *.db
 *.sqlite3
 
-models/best.pt
-
 # Media (optional)
 media/
 
