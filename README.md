@@ -14,7 +14,7 @@ Real-Time Weapon Detection using YOLOv8 • Flask • OpenCV • Raspberry Pi �
 
 <p align="center">
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Python](https://img.shields.io/badge/Python-3.10.11-blue)
 ![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black)
 ![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-red)
 ![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-green)
