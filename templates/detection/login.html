@@ -17,12 +17,12 @@
             <form id="login-form" method="POST" action="{{ url_for('login') }}">
                 <div class="input-group">
                     <label for="email">Email</label>
-                    <input type="text" id="email" name="email" required>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 </div>
                 
                 <div class="input-group">
                     <label for="password">Password</label> 
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
                 <div id="error-message">
                 {% with messages = get_flashed_messages(with_categories=true) %}
