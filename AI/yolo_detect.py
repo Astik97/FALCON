@@ -6,7 +6,7 @@ import time
 from dotenv import load_dotenv
 
 from alerts.twilio_alert import send_alert_message
-from database.database import init_db, insert_detection
+from database.detection_db import init_db, insert_detection
 
 # ---------------- LOAD ENVIRONMENT ----------------
 

@@ -4,10 +4,10 @@ import os
 import sqlite3
 import threading
 from AI.yolo_detect import run_yolo_detection as yolo_detection_runner
-from database.database import get_all_detections, insert_detection
-from database.database import init_db as init_detection_db
+from database.detection_db import get_all_detections, insert_detection
+from database.detection_db import init_db as init_detection_db
 import time, datetime
-from twilio_alert import send_alert_message
+from alerts.twilio_alert import send_alert_message
 from werkzeug.security import generate_password_hash, check_password_hash
 from twilio.rest import Client
 from dotenv import load_dotenv
