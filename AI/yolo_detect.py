@@ -1,34 +1,17 @@
 import cv2
 from ultralytics import YOLO
-import os
 import datetime
 import time
-from dotenv import load_dotenv
+from config import (os,MODEL_PATH,MEDIA_DIR)
 
 from alerts.twilio_alert import send_alert_message
 from database.detection_db import init_db, insert_detection
 
-# ---------------- LOAD ENVIRONMENT ----------------
-
-load_dotenv()
-
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# ---------------- YOLO MODEL ----------------
-
-MODEL_PATH = os.getenv(
-    "MODEL_PATH",
-    os.path.join(BASE_DIR, "models", "best.pt")
-)
-
 if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError(
-        f"[ERROR] YOLO model not found: {MODEL_PATH}"
-    )
+    raise FileNotFoundError(f"[ERROR] YOLO model not found: {MODEL_PATH}")
 
 model = YOLO(MODEL_PATH)
 
-print("[INFO] YOLO model loaded successfully")
 
 # ---------------- DATABASE ----------------
 
@@ -36,16 +19,7 @@ init_db()
 
 # ---------------- OUTPUT FOLDER ----------------
 
-OUTPUT_DIR = os.path.join(
-    BASE_DIR,
-    "media",
-    "output"
-)
-
-os.makedirs(
-    OUTPUT_DIR,
-    exist_ok=True
-)
+os.makedirs(MEDIA_DIR,exist_ok=True)
 
 # ---------------- CONFIGURATION ----------------
 
@@ -141,7 +115,7 @@ def run_yolo_detection():
 
                     filename = (f"{label}_{timestamp}.jpg")
 
-                    image_path = os.path.join(OUTPUT_DIR,filename)
+                    image_path = os.path.join(MEDIA_DIR,filename)
 
                     cv2.imwrite(image_path,frame)
 
@@ -151,9 +125,7 @@ def run_yolo_detection():
 
                     video_filename = (f"{label}_{timestamp}.mp4")
 
-
-                    video_path = os.path.join(OUTPUT_DIR,video_filename)
-
+                    video_path = os.path.join(MEDIA_DIR,video_filename)
 
                     writer = cv2.VideoWriter(video_path,fourcc,FPS,
                         (

@@ -3,10 +3,16 @@ from flask import (Flask, render_template, jsonify, send_from_directory, url_for
 import os
 import sqlite3
 import threading
+import time, datetime
 from AI.yolo_detect import run_yolo_detection as yolo_detection_runner
 from database.detection_db import get_all_detections, insert_detection
 from database.detection_db import init_db as init_detection_db
-import time, datetime
+from config import (
+    SECRET_KEY,
+    USERS_DB,
+    ALERTS_DB,
+    MEDIA_DIR
+)
 from alerts.twilio_alert import send_alert_message
 from werkzeug.security import generate_password_hash, check_password_hash
 from twilio.rest import Client
@@ -14,21 +20,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = SECRET_KEY
 
-USER_DB = os.path.join(BASE_DIR, "database/add_users.db")
-ALERTS_DB = os.path.join(BASE_DIR, "database/alerts.db")
-
-MEDIA_OUTPUT_FOLDER = os.path.join(BASE_DIR, "media", "output")
-os.makedirs(MEDIA_OUTPUT_FOLDER, exist_ok=True)
+MEDIA_OUTPUT_FOLDER = MEDIA_DIR
 
 # ---------------- USER DATABASE ----------------
 
 def get_user_db():
-    conn = sqlite3.connect(USER_DB)
+    conn = sqlite3.connect(USERS_DB)
     conn.row_factory = sqlite3.Row
     return conn
 
