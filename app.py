@@ -19,8 +19,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
-USER_DB = os.path.join(BASE_DIR, "add_users.db")
-ALERTS_DB = os.path.join(BASE_DIR, "alerts.db")
+USER_DB = os.path.join(BASE_DIR, "database/add_users.db")
+ALERTS_DB = os.path.join(BASE_DIR, "database/alerts.db")
 
 MEDIA_OUTPUT_FOLDER = os.path.join(BASE_DIR, "media", "output")
 os.makedirs(MEDIA_OUTPUT_FOLDER, exist_ok=True)
@@ -332,4 +332,5 @@ def receive_alert():
         return jsonify({"status": "error"}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(debug=True)

@@ -1,7 +1,7 @@
 import sqlite3
 
 def init_database():
-    conn = sqlite3.connect('alerts.db')
+    conn = sqlite3.connect('database/alerts.db')
     cursor = conn.cursor()
     
     cursor.execute('''
@@ -16,7 +16,7 @@ def init_database():
     ''')
     conn.commit()
     conn.close()
-    print("Database 'alerts.db' created successfully!")
+    # print("Database created successfully!")
 
 if __name__ == '__main__':
     init_database()
