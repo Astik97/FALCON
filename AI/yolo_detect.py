@@ -2,7 +2,7 @@ import cv2
 from ultralytics import YOLO
 import datetime
 import time
-from config import (os,MODEL_PATH,MEDIA_DIR)
+from config import os, MODEL_PATH, MEDIA_DIR
 
 from alerts.twilio_alert import send_alert_message
 from database.detection_db import init_db, insert_detection
@@ -11,7 +11,6 @@ if not os.path.exists(MODEL_PATH):
     raise FileNotFoundError(f"[ERROR] YOLO model not found: {MODEL_PATH}")
 
 model = YOLO(MODEL_PATH)
-
 
 # ---------------- DATABASE ----------------
 
