@@ -1,4 +1,5 @@
-from flask import (Flask, render_template, jsonify, send_from_directory,url_for, request, redirect, session, flash)
+from flask import (Flask, render_template, jsonify, send_from_directory, url_for,
+                   request, redirect, session, flash)
 import os
 import sqlite3
 import threading
@@ -13,21 +14,26 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 
-USER_DB = "add_users.db"
+USER_DB = os.path.join(BASE_DIR, "add_users.db")
+ALERTS_DB = os.path.join(BASE_DIR, "alerts.db")
 
-os.makedirs('media/output', exist_ok=True) # Ensure output folder exists
+MEDIA_OUTPUT_FOLDER = os.path.join(BASE_DIR, "media", "output")
+os.makedirs(MEDIA_OUTPUT_FOLDER, exist_ok=True)
+
+# ---------------- USER DATABASE ----------------
 
 def get_user_db():
-    conn = sqlite3.connect(USER_DB)    
+    conn = sqlite3.connect(USER_DB)
     conn.row_factory = sqlite3.Row
     return conn
 
 def init_user_db():
     conn = get_user_db()
-    # Create table matching your Register HTML fields
     conn.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,11 +45,36 @@ def init_user_db():
     conn.commit()
     conn.close()
 
-# Initialize DB on startup
+# ---------------- ALERTS DATABASE ----------------
+
+def get_alerts_db():
+    conn = sqlite3.connect(ALERTS_DB)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_alerts_db():
+    conn = get_alerts_db()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS alerts_table (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            time TEXT,
+            phone TEXT,
+            method TEXT,
+            message TEXT,
+            sid TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Initialize databases on startup
 init_user_db()
 init_detection_db()
+init_alerts_db()
 
 alert_history = []
+
+# ---------------- AUTH ROUTES ----------------
 
 @app.route('/')
 def home():
@@ -54,14 +85,14 @@ def login():
     if request.method == 'POST':
         email_input = request.form.get('username') or request.form.get('email')
         password_input = request.form['password']
-        
+
         conn = get_user_db()
         user = conn.execute('SELECT * FROM users WHERE email = ?', (email_input,)).fetchone()
         conn.close()
 
         # Verify user exists and password hash matches
         if user and check_password_hash(user['password'], password_input):
-            session['username'] = user['fullname'] # Store fullname in session
+            session['username'] = user['fullname']  # Store fullname in session
             session['email'] = user['email']
             return redirect(url_for('dashboard'))
         else:
@@ -74,25 +105,23 @@ def api_login():
     data = request.json
     email = data.get('email')
     password = data.get('password')
-    
-    conn = sqlite3.connect(USER_DB)
-    conn.row_factory = sqlite3.Row
+
+    conn = get_user_db()
     cursor = conn.cursor()
-    
     cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
     user = cursor.fetchone()
     conn.close()
-    
+
     # 1. Check if user exists and password is correct
     if not user or not check_password_hash(user['password'], password):
         return jsonify({"error": "Invalid email or password."}), 401
-        
+
     # 2. Success! Let them in.
     return jsonify({
         "message": f"Welcome back, {user['fullname']}!",
     }), 200
 
-@app.route('/register',methods=['GET','POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         fullname = request.form['fullname']
@@ -118,7 +147,7 @@ def register():
             # 3. Hash password and save
             hashed_pw = generate_password_hash(password)
             cursor.execute('INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)',
-                        (fullname, email, hashed_pw))
+                           (fullname, email, hashed_pw))
             conn.commit()
             conn.close()
             flash("Account created! Please login.", "success")
@@ -128,24 +157,22 @@ def register():
 @app.route('/api/register', methods=['POST'])
 def api_register():
     data = request.json
-    fullname = data.get('fullname') # You called this Full name in HTML
+    fullname = data.get('fullname')
     email = data.get('email')
     password = data.get('password')
     confirm_password = data.get('confirm_password')
-    
+
     if password != confirm_password:
         return jsonify({"error": "Passwords do not match!"}), 400
 
-    conn = sqlite3.connect(USER_DB)
+    conn = get_user_db()
     cursor = conn.cursor()
     try:
-        # Insert the new user. is_approved and is_admin will automatically be 0
         hashed_pw = generate_password_hash(password)
         cursor.execute('''
             INSERT INTO users (fullname, email, password)
             VALUES (?, ?, ?)
         ''', (fullname, email, hashed_pw))
-
         conn.commit()
         return jsonify({"message": "Registration successful! Please wait for admin approval."}), 200
     except sqlite3.IntegrityError:
@@ -153,23 +180,18 @@ def api_register():
     finally:
         conn.close()
 
-# Path to detected files
-MEDIA_OUTPUT_FOLDER = os.path.join(os.getcwd(), 'media', 'output')
-if not os.path.exists(MEDIA_OUTPUT_FOLDER):
-    os.makedirs(MEDIA_OUTPUT_FOLDER)
+# ---------------- DETECTION ----------------
 
 def run_yolo_detection():
     yolo_detection_runner()
 
-# Dashboard route
 @app.route('/dashboard')
 def dashboard():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('detection/dashboard.html',username=session['username'])
+    return render_template('detection/dashboard.html', username=session['username'])
 
-# Start weapon detection
-@app.route('/start-detection',methods=['GET'])
+@app.route('/start-detection', methods=['GET'])
 def start_detection():
     thread = threading.Thread(target=run_yolo_detection)
     thread.start()
@@ -177,24 +199,22 @@ def start_detection():
     print("[INFO] Detection started...")
     return jsonify({"message": message})
 
-# Serve media files (images/videos) from media/output
 @app.route('/media/output/<filename>')
 def media_file(filename):
     return send_from_directory(MEDIA_OUTPUT_FOLDER, filename, conditional=True)
 
-# API to fetch image and video list dynamically
 @app.route('/api/files', methods=['GET'])
 def get_files():
     files_data = []
     for filename in os.listdir(MEDIA_OUTPUT_FOLDER):
         file_path = os.path.join(MEDIA_OUTPUT_FOLDER, filename)
         if os.path.isfile(file_path):
-            if filename.lower().endswith(('.mp4', '.avi', '.mov', '.mkv','.webm')):
+            if filename.lower().endswith(('.mp4', '.avi', '.mov', '.mkv', '.webm')):
                 file_type = 'video'
             elif filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp')):
                 file_type = 'image'
             else:
-                continue 
+                continue
             file_url = url_for('media_file', filename=filename)
             files_data.append({
                 "name": filename,
@@ -210,7 +230,6 @@ def detected_weapons():
 @app.route('/api/detections')
 def api_detections():
     try:
-        # Fetch data directly from SQLite
         detections = get_all_detections()
         return jsonify(detections)
     except Exception as e:
@@ -222,15 +241,11 @@ def logout():
     session.pop('username', None)
     return render_template('detection/login.html')
 
-# --- TWILIO CONFIGURATION ---
+# ---------------- TWILIO / ALERTS ----------------
+
 TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
-
-def get_alerts_db():
-    conn = sqlite3.connect('alerts.db')
-    conn.row_factory = sqlite3.Row
-    return conn
 
 @app.route('/alerts')
 def alerts():
@@ -241,9 +256,9 @@ def get_alerts_history():
     conn = get_alerts_db()
     records = conn.execute('SELECT * FROM alerts_table ORDER BY time DESC LIMIT 50').fetchall()
     conn.close()
-    
-    alerts_list = [{'time': r['time'], 'phone': r['phone'], 
-                    'method': r['method'], 'message': r['message'], 
+
+    alerts_list = [{'time': r['time'], 'phone': r['phone'],
+                    'method': r['method'], 'message': r['message'],
                     'sid': r['sid']} for r in records]
     return jsonify(alerts_list)
 
@@ -257,10 +272,10 @@ def send_alert():
         # A. Send SMS via Twilio
         client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
         twilio_msg = client.messages.create(body=message, from_=TWILIO_PHONE_NUMBER, to=phone)
-        
+
         # B. Get current time
         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        
+
         # C. Save to SQLite Database
         conn = get_alerts_db()
         cursor = conn.cursor()
@@ -295,8 +310,6 @@ def receive_alert():
             filename = f"{label}_{file_timestamp}.jpg"
             image_path = os.path.join(MEDIA_OUTPUT_FOLDER, filename)
             image_file.save(image_path)
-            
-            # This is the crucial line:
             db_image_url = f"/media/output/{filename}"
 
         # -------- VIDEO (OPTIONAL) --------
@@ -305,8 +318,6 @@ def receive_alert():
             video_filename = f"{label}_{file_timestamp}.webm"
             video_path = os.path.join(MEDIA_OUTPUT_FOLDER, video_filename)
             video_file.save(video_path)
-
-            # This is the crucial line:
             db_video_url = f"/media/output/{video_filename}"
 
         # -------- INSERT DATABASE --------
