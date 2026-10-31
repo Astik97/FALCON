@@ -3,9 +3,9 @@ from flask import (Flask, render_template, jsonify, send_from_directory, url_for
 import os
 import sqlite3
 import threading
-from yolo_detect import run_yolo_detection as yolo_detection_runner
-from database import get_all_detections, insert_detection
-from database import init_db as init_detection_db
+from AI.yolo_detect import run_yolo_detection as yolo_detection_runner
+from database.database import get_all_detections, insert_detection
+from database.database import init_db as init_detection_db
 import time, datetime
 from twilio_alert import send_alert_message
 from werkzeug.security import generate_password_hash, check_password_hash

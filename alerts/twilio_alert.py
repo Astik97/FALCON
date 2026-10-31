@@ -4,7 +4,7 @@ from config import (ACCOUNT_SID,AUTH_TOKEN,FROM_PHONE,TO_PHONE)
 # Validate configuration
 if not all([ACCOUNT_SID, AUTH_TOKEN, FROM_PHONE, TO_PHONE]):
     raise RuntimeError(
-        "Missing one or more Twilio environment variables. "
+        "Missing one or more Twilio environment variables."
         "Check your .env file."
     )
 
@@ -13,10 +13,6 @@ def send_alert_message(
     "Immediate help is needed.") -> bool:
     try:
         client = Client(ACCOUNT_SID, AUTH_TOKEN)
-
-        print(type(FROM_PHONE), FROM_PHONE)
-        print(type(TO_PHONE), TO_PHONE)
-
         message = client.messages.create(
             body=message_text,
             from_=FROM_PHONE,

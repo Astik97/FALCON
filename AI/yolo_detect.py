@@ -5,8 +5,8 @@ import datetime
 import time
 from dotenv import load_dotenv
 
-from twilio_alert import send_alert_message
-from database import init_db, insert_detection
+from alerts.twilio_alert import send_alert_message
+from database.database import init_db, insert_detection
 
 # ---------------- LOAD ENVIRONMENT ----------------
 
