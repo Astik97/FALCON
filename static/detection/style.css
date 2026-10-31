@@ -113,6 +113,7 @@ h1 {
 .form-link a:hover {
     text-decoration: underline;
 }
+
 #error-message {
     text-align: center;
     margin-bottom: 1rem;

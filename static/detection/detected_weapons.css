@@ -29,87 +29,100 @@ body, .detection-card {
 }
 
 body {
-      background-color: var(--bg-darkest);
-      color: var(--text-light);
-      font-family: Arial, sans-serif;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .detection-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 30px;
-    }
-    .detection-card {
-      width: 80%;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      margin-bottom: 15px;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: 0.5s ease;
-    }
-    
-    .detection-card:hover {
-      background: var(--bg-hover);
-    }
-    .info {
-      flex: 1;
-    }
-    .info p {
-      margin: 3px 0;
-    }
-    .images img {
-      width: 200px;
-      border-radius: 8px;
-      border: 2px solid var(--accent-blue);
-    }
-    .back-btn {
-      color: var(--link-blue);
-      text-decoration: none;
-      margin-left: 15px;
-      font-weight: bold;
-    }
-    /* --- Media Container Layout --- */
-.media-evidence {
+  background-color: var(--bg-darkest);
+  color: var(--text-light);
+  font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .detection-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+  }
+  
+  .detection-card {
+    width: 80%;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.5s ease;
+  }
+  
+  .detection-card:hover {
+    background: var(--bg-hover);
+  }
+  
+  .info {
+    flex: 1;
+  }
+  
+  .info p {
+    margin: 3px 0;
+  }
+  
+  .images img {
+    width: 200px;
+    border-radius: 8px;
+    border: 2px solid var(--accent-blue);
+  }
+  
+  .back-btn {
+    color: var(--link-blue);
+    text-decoration: none;
+    margin-left: 15px;
+    font-weight: bold;
+  }
+  
+  /* --- Media Container Layout --- */
+  .media-evidence {
     display: flex;
     gap: 15px; /* Space between image and video */
     flex-wrap: wrap; /* Stacks them on smaller screens */
     justify-content: flex-end;
-}
-.media-item {
+  }
+  
+  .media-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5px;
-}
-.media-item img, 
-.media-item video {
+  }
+  
+  .media-item img, 
+  .media-item video {
     width: 220px; /* Increased size slightly for visibility */
     height: 130px;
     object-fit: cover;
     border-radius: 8px;
     border: 2px solid var(--accent-blue);
     background-color: #000;
-}
-.media-label {
+  }
+  
+  .media-label {
     font-size: 11px;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 1px;
-}
-/* Ensure the info section doesn't get squeezed */
-.info {
+  }
+  
+  /* Ensure the info section doesn't get squeezed */
+  .info {
     flex: 1;
     min-width: 250px;
-}
-.info h3 {
+  }
+  
+  .info h3 {
     color: var(--accent-red); /* Makes the weapon name stand out */
     margin-bottom: 10px;
-}
+  }
