@@ -23,6 +23,12 @@ def get_env_variable(name: str, default=None):
     return value
 
 # -----------------------------
+# Dataset
+# -----------------------------
+DATASET_DIR = os.path.join(BASE_DIR, "train_detect_weapons")
+DATASET_YAML = os.path.join(DATASET_DIR, "data.yaml")
+
+# -----------------------------
 # Database Directory
 # -----------------------------
 DATABASE_DIR = os.path.join(BASE_DIR, "database")

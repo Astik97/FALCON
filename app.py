@@ -11,14 +11,17 @@ from config import (
     SECRET_KEY,
     USERS_DB,
     ALERTS_DB,
-    MEDIA_DIR
+    MEDIA_DIR,
+    ACCOUNT_SID,
+    AUTH_TOKEN,
+    FROM_PHONE
 )
 from alerts.twilio_alert import send_alert_message
 from werkzeug.security import generate_password_hash, check_password_hash
 from twilio.rest import Client
-from dotenv import load_dotenv
+from config import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
@@ -243,10 +246,6 @@ def logout():
 
 # ---------------- TWILIO / ALERTS ----------------
 
-TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
-TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
-
 @app.route('/alerts')
 def alerts():
     return render_template('detection/alerts.html')
@@ -270,8 +269,8 @@ def send_alert():
 
     try:
         # A. Send SMS via Twilio
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-        twilio_msg = client.messages.create(body=message, from_=TWILIO_PHONE_NUMBER, to=phone)
+        client = Client(ACCOUNT_SID, AUTH_TOKEN)
+        twilio_msg = client.messages.create(body=message, from_=FROM_PHONE, to=phone)
 
         # B. Get current time
         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
