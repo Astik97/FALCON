@@ -219,12 +219,11 @@ body {
 }
 
 .chart-image{
-    width: 60px; /* Fixed width for the image */
-    height: 60px; /* Fixed height for the image */
+    width: 50px; /* Fixed width for the image */
+    height: 50px; /* Fixed height for the image */
     object-fit: contain; /* Ensures the whole image fits without cropping */
     display: block; /* Removes extra space below image */
     filter: invert(0);
-    float: right;
 }
 
 /* --- Login/Register Page Specific Styles --- */
@@ -262,6 +261,8 @@ h1 {
 }
 
 .btn {
+    display: inline-block;
+    text-align: center;
     width: 100%;
     padding: 0.85rem;
     border: none;
@@ -273,6 +274,7 @@ h1 {
     cursor: pointer;
     transition: background-color 0.3s;
     text-decoration: none;
+    box-sizing: border-box;
 }
 .input-group input {
     width: 100%;
@@ -451,17 +453,38 @@ h1 {
 
 .overview-cards .card {
     text-align: left; /* Align card content to left */
+    justify-content: space-between;
+}
+
+.card-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0 1rem 0;
 }
 
 .overview-cards .card-value {
     font-size: 2.2rem;
     font-weight: bold;
-    margin: 0.5rem 0;
+    margin: 0;
 }
 
 .overview-cards .card-subtext {
     color: var(--text-secondary);
     font-size: 1rem;
+    margin-top: auto;
+}
+
+.overview-cards .btn.view-alerts-btn {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    text-align: center;
+    margin-top: auto;
+    box-sizing: border-box;
+    white-space: nowrap;
 }
 
 .overview-cards .card-chart {

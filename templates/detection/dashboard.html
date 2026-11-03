@@ -50,44 +50,36 @@
         <section class="overview-cards">
             <div class="card">
                 <h3>Total Incidents</h3>
-                <div class="card-content-bottom">
+                <div class="card-stat-row">
                     <p class="card-value" id="total-incidents">0</p>
-                    <div class="status-indicator">
-                        <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Total Incidents Chart" class="chart-image" id="total-incidents-chart">
-                        <p class="card-subtext">Last 24h</p>
-                    </div>
+                    <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Total Incidents Chart" class="chart-image" id="total-incidents-chart">
                 </div>
+                <p class="card-subtext">Last 24h</p>
             </div>
 
             <div class="card">
                 <h3>Active Alerts</h3>
-                <div class="card-content-bottom">
+                <div class="card-stat-row">
                     <p class="card-value" id="active-alerts">0</p>
-                    <div class="status-indicator">
-                        <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="Active Alerts Chart" class="chart-image" id="active-alerts-chart">
-                        <a href="{{url_for('alerts')}}" class="btn view-alerts-btn">
-                            High Priority Alerts
-                        </a>
-                    </div>
+                    <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="Active Alerts Chart" class="chart-image" id="active-alerts-chart">
                 </div>
+                <a href="{{url_for('alerts')}}" class="btn view-alerts-btn">High Priority Alerts</a>
             </div>
             
             <div class="card">
                 <h3>Detected Weapons</h3>
-                <div class="card-content-bottom">
+                <div class="card-stat-row">
                     <p class="card-value" id="detected-weapons">0</p>
-                    <div class="status-indicator">
-                        <img src="{{ url_for('static', filename='images/logo3.png') }}" alt="Detected Weapons Chart" class="chart-image" id="detected-weapons-chart">
-                        <a href="{{url_for('detected_weapons')}}" class="btn view-alerts-btn">
-                            Detected Weapons
-                        </a>
-                    </div>
+                    <img src="{{ url_for('static', filename='images/logo3.png') }}" alt="Detected Weapons Chart" class="chart-image" id="detected-weapons-chart">
                 </div>
+                <a href="{{url_for('detected_weapons')}}" class="btn view-alerts-btn">Detected Weapons</a>
             </div>
             
             <div class="card system-health">
                 <h3>System Health</h3>
-                <p class="card-value"><i class="fas fa-check-circle"></i> AI Systems Operational</p>
+                <div class="card-stat-row">
+                    <p class="card-value"><i class="fas fa-check-circle"></i> AI Systems Operational</p>
+                </div>
                 <p class="card-subtext" id="system-time">Last Checked: Updating...</p>
             </div>
         </section>
