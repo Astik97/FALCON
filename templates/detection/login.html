@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Crime Alert System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='detection/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="auth-container">
+        <div class="auth-top-bar">
+            <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+        
         <div class="auth-logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Falcon Security Logo">
         </div>
@@ -18,12 +25,12 @@
         <form id="login-form" method="POST" action="{{ url_for('login') }}">
             <div class="input-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email"  placeholder="Enter your email" required>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required autocomplete="email">
             </div>
             
             <div class="input-group">
                 <label for="password">Password</label> 
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
             </div>
             
             <div id="error-message">
@@ -38,7 +45,6 @@
                 {% endwith %}
             </div>
             
-            <!-- <input type="hidden" name="next" value="{{ next }}"> -->
             <button type="submit" class="btn">Login</button>
             <p class="form-link">
                 <a href="{{url_for('dashboard')}}">Go to Dashboard</a>
@@ -48,5 +54,7 @@
             Don't have an account? <a href="{{url_for('register')}}">Register here</a>
         </p>
     </div>
+
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 </body>
 </html>

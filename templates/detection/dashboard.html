@@ -10,24 +10,27 @@
 <body>
     <!-- Top Header -->
     <header class="top-header">
-        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">&#9776;</button>
         <h1>Crime Alert & Reporting Dashboard</h1>
     </header>
     
     <!-- Sidebar Menu -->
     <nav class="sidebar" id="sidebar">
-        <div class="sidebar-logo">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Falcon Security Logo">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Falcon Security Logo">
+            </div>
+            <button class="sidebar-close" id="sidebar-close" aria-label="Close Sidebar">&times;</button>
         </div>
         <ul>
-            <li><a href="#" class="nav-link active"><i class="fas fa-home"></i> Overview</a></li>
-            <li><a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Live</a></li>
-            <li><a href="{{url_for('alerts')}}" class="nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
-            <li><a href="{{url_for('detected_weapons')}}" class="nav-link"><i class="fas fa-crosshairs"></i> Detected Weapons</a></li>
-            <li><a href="#" class="nav-link"><i class="fas fa-map-marker-alt"></i> Locations</a></li>
-            <li><a href="#" class="nav-link"><i class="fas fa-file-alt"></i> Reports</a></li>
-            <li><a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
-            <li><a href="#" class="nav-link"><i class="fas fa-question-circle"></i> Help</a></li>
+            <li><a href="#" class="nav-link active"><i class="fas fa-home"></i> <span>Overview</span></a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-chart-line"></i> <span>Live</span></a></li>
+            <li><a href="{{url_for('alerts')}}" class="nav-link"><i class="fas fa-bell"></i> <span>Alerts</span></a></li>
+            <li><a href="{{url_for('detected_weapons')}}" class="nav-link"><i class="fas fa-crosshairs"></i> <span>Detected Weapons</span></a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-map-marker-alt"></i> <span>Locations</span></a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-file-alt"></i> <span>Reports</span></a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-question-circle"></i> <span>Help</span></a></li>
         </ul>
     </nav>
     
@@ -36,10 +39,10 @@
         <header class="sub-header">
             <div class="search-bar">
                 <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search Alerts, or Defenses...">
+                <input type="text" placeholder="Search Alerts, or Defenses..." aria-label="Search Alerts or Defenses">
             </div>
             <div class="user-info">
-                <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">
+                <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
                     <i class="fas fa-sun"></i> 
                 </button>
                 <span class="welcome-text">Welcome, {{username}}</span>
@@ -87,50 +90,52 @@
         <section class="dashboard-section-two">
             <div class="card recent-alerts">
                 <h2>Recent Alerts</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Time</th>
-                            <th>Location</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Location</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td>Office Chamber</td>
-                            <td></td>
-                            <td>New</td>
-                            <td><a href="#">View</a></td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td>Office Chamber</td>
+                                <td></td>
+                                <td>New</td>
+                                <td><a href="#">View</a></td>
+                            </tr>
 
-                        <tr>
-                            <td></td>
-                            <td>Main Lobby</td>
-                            <td></td>
-                            <td>Investigating</td>
-                            <td><a href="#">View</a></td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td>Main Lobby</td>
+                                <td></td>
+                                <td>Investigating</td>
+                                <td><a href="#">View</a></td>
+                            </tr>
 
-                        <tr>
-                            <td></td>
-                            <td>Entrance Gate</td>
-                            <td></td>
-                            <td>Resolved</td>
-                            <td><a href="#">View</a></td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <tr>
+                                <td></td>
+                                <td>Entrance Gate</td>
+                                <td></td>
+                                <td>Resolved</td>
+                                <td><a href="#">View</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <button class="btn view-all-btn">View All Alerts</button>
             </div>
             
             <div class="card live-map">
                 <h2>Live Map</h2>
                 <div class="map-placeholder">
-                    <img src="{{ url_for('static', filename='images/map.png') }}" alt="Live Map" style="width:100%; height: auto; border-radius: 8px;">
+                    <img src="{{ url_for('static', filename='images/map.png') }}" alt="Live Map" class="map-image">
                 </div>
                 
                 <div class="map-legend">
@@ -145,8 +150,8 @@
             <div class="card-header-with-controls">
                 <h2>Detected Weapon Images</h2>
                 <div class="controls">
-                    <span>Sort by: </span>
-                    <select>Type
+                    <span class="sort-label">Sort by: </span>
+                    <select id="sort-select" aria-label="Sort images by">
                         <option value="newest">Newest</option>
                         <option value="oldest">Oldest</option>
                     </select>
@@ -156,13 +161,12 @@
             
             <div class="image-grid">
                 <!-- Weapon images/videos will be dynamically loaded here -->
-                </div>
-                <div class="pagination">
-                    <span>1,</span>
-                    <span>2,</span>
-                    <span>3...</span>
-                    <span>Next</span>
-                </div>
+            </div>
+            <div class="pagination">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>Next</span>
             </div>
         </section>
     </main>
@@ -171,6 +175,5 @@
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
     <script src="{{url_for('static', filename='js/theme.js')}}"></script>
-               
 </body>
 </html>

@@ -1,17 +1,31 @@
 /* --- Global Styles & Theme --- */
 :root {
-    --bg-darkest: #0d1b2a;  /* Dark navy background */
-    --bg-dark: #1b263b;      /* Lighter navy for form container */
-    --primary-blue: #4169E1; /* Royal blue for buttons/links */
-    --primary-hover: #5a8eff; /* Lighter blue for hover */
-    --text-light: #f0f0f0;   /* Light grey/white text */
-    --text-secondary: #a0a0a0; /* Grey for subtitles */
-    --border-color: #4169E1; /* Border focus color */
-    --error-red: #ff6b6b;      /* Error message color */
+    --bg-darkest: #0d1b2a;      /* Dark navy background */
+    --bg-dark: #1b263b;         /* Lighter navy for form container */
+    --bg-medium: #2a3d58;       /* Medium navy */
+    --primary-blue: #4169E1;    /* Royal blue for buttons/links */
+    --primary-hover: #5a8eff;   /* Lighter blue for hover */
+    --text-light: #f0f0f0;      /* Light grey/white text */
+    --text-secondary: #a0a0a0;  /* Grey for subtitles */
+    --border-color: #4169E1;    /* Border focus color */
+    --error-red: #ff6b6b;       /* Error message color */
     --success-green: #2ecc71;
+    --card-shadow: rgba(0, 0, 0, 0.35);
 }
 
-* {
+body.light-theme {
+    --bg-darkest: #f4f6f9;
+    --bg-dark: #ffffff;
+    --bg-medium: #e2e8f0;
+    --primary-blue: #2563eb;
+    --primary-hover: #1d4ed8;
+    --text-light: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #2563eb;
+    --card-shadow: rgba(0, 0, 0, 0.08);
+}
+
+*, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -25,83 +39,135 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 1.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    line-height: 1.5;
 }
 
 /* --- Form Container --- */
 .auth-container {
     background-color: var(--bg-dark);
-    padding: 2.5rem;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    padding: 2.25rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--card-shadow);
     width: 100%;
-    max-width: 450px;
+    max-width: 440px;
+    margin: auto;
+    position: relative;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-top-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.5rem;
+}
+
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-light);
+    font-size: 1.15rem;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.theme-toggle-btn:hover {
+    color: var(--primary-blue);
+    background-color: var(--bg-medium);
+}
+
+.auth-logo {
+    text-align: center;
+    margin-bottom: 1.25rem;
+}
+
+.auth-logo img {
+    width: 110px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
+    font-size: 1.7rem;
+    font-weight: 700;
     color: var(--text-light);
 }
 
 .system-title {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.75rem;
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.92rem;
 }
 
 /* --- Input Fields & Labels --- */
 .input-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.15rem;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
     font-weight: 500;
 }
 
 .input-group input {
     width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--bg-dark);
-    border-radius: 5px;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
     background-color: var(--bg-darkest);
     color: var(--text-light);
-    font-size: 1rem;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 1rem; /* 16px prevents iOS auto-zoom */
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+body.light-theme .input-group input {
+    border-color: #cbd5e1;
 }
 
 .input-group input:focus {
-    outline: none;
     border-color: var(--border-color);
-    box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.3);
+    box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.25);
 }
 
 /* --- Button --- */
 .btn {
     width: 100%;
-    padding: 0.85rem;
+    padding: 0.8rem 1rem;
     border: none;
-    border-radius: 5px;
-    background-color: blue;
+    border-radius: 6px;
+    background-color: var(--primary-blue);
     color: white;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.98rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 .btn:hover {
-    background-color: blue;
+    background-color: var(--primary-hover);
 }
 
 /* --- Bottom Link & Error Message --- */
 .form-link {
     text-align: center;
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
+    margin-top: 1.25rem;
+    font-size: 0.88rem;
 }
 
 .form-link a {
@@ -117,12 +183,11 @@ h1 {
 #error-message {
     text-align: center;
     margin-bottom: 1rem;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 500;
-    min-height: 1.2em; /* Keeps space so layout doesn't jump */
+    min-height: 1.2em;
 }
 
-/* Add these new classes */
 .msg-error {
     color: var(--error-red);
 }
@@ -131,14 +196,34 @@ h1 {
     color: var(--success-green);
 }
 
-.auth-logo {
-    text-align: center; /* Centers the image */
-    margin-bottom: 1.5rem; /* Adds space below the logo */
-}
+/* Responsive adjustments for phones */
+@media (max-width: 480px) {
+    body {
+        padding: 0.75rem;
+        align-items: flex-start;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
 
-.auth-logo img {
-    width: 120px; /* Adjust the width as needed */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Ensures centering works correctly */
-    margin: 0 auto; /* Centers the block image itself */
+    .auth-container {
+        padding: 1.5rem 1.25rem;
+        border-radius: 10px;
+    }
+
+    .auth-logo img {
+        width: 90px;
+    }
+
+    h1 {
+        font-size: 1.45rem;
+    }
+
+    .system-title {
+        font-size: 0.85rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .btn {
+        padding: 0.75rem 0.9rem;
+    }
 }
