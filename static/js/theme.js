@@ -1,46 +1,61 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Find the button and icon on whatever page we are currently on
-    const themeToggleBtn = document.getElementById("theme-toggle");
-    const themeIcon = themeToggleBtn ? themeToggleBtn.querySelector("i") : null;
-    const body = document.body;
-
-    // 2. This function actually does the work of changing the colors and the icon
+// static/js/theme.js
+(function () {
+    // 1. Function to apply theme to documentElement and body
     function applyTheme(theme) {
-        if (theme === "light") {
-            body.classList.add("light-theme");
-            if (themeIcon) {
-                themeIcon.classList.remove("fa-sun");
-                themeIcon.classList.add("fa-moon");
+        const isLight = (theme === "light");
+        
+        if (isLight) {
+            document.documentElement.classList.add("light-theme");
+            if (document.body) {
+                document.body.classList.add("light-theme");
             }
         } else {
-            body.classList.remove("light-theme");
+            document.documentElement.classList.remove("light-theme");
+            if (document.body) {
+                document.body.classList.remove("light-theme");
+            }
+        }
+
+        // Update toggle button icon if this page has one (e.g. Dashboard)
+        const themeToggleBtn = document.getElementById("theme-toggle");
+        if (themeToggleBtn) {
+            const themeIcon = themeToggleBtn.querySelector("i");
             if (themeIcon) {
-                themeIcon.classList.remove("fa-moon");
-                themeIcon.classList.add("fa-sun");
+                if (isLight) {
+                    themeIcon.classList.remove("fa-sun");
+                    themeIcon.classList.add("fa-moon");
+                } else {
+                    themeIcon.classList.remove("fa-moon");
+                    themeIcon.classList.add("fa-sun");
+                }
             }
         }
     }
 
-    // 3. When the page first loads, check browser memory for the saved theme
-    const currentTheme = localStorage.getItem("theme") || "dark"; 
-    applyTheme(currentTheme);
+    // 2. Immediate execution: applies theme right away to prevent any flash of dark theme
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    applyTheme(savedTheme);
 
-    // 4. If the page has a toggle button, listen for clicks
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener("click", () => {
-            // Figure out what the *new* theme should be
-            const newTheme = body.classList.contains("light-theme") ? "dark" : "light";
-            
-            // Save it to memory and apply it
-            localStorage.setItem("theme", newTheme); 
-            applyTheme(newTheme); 
-        });
-    }
+    // 3. When DOM is ready, sync body and attach toggle button handler if present
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentTheme = localStorage.getItem("theme") || "dark";
+        applyTheme(currentTheme);
 
-    // 5. MAGIC TRICK: Keep multiple browser tabs perfectly synced instantly
-    window.addEventListener('storage', (event) => {
-        if (event.key === 'theme') {
-            applyTheme(event.newValue);
+        const themeToggleBtn = document.getElementById("theme-toggle");
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener("click", function () {
+                const current = localStorage.getItem("theme") || "dark";
+                const nextTheme = (current === "light") ? "dark" : "light";
+                localStorage.setItem("theme", nextTheme);
+                applyTheme(nextTheme);
+            });
         }
     });
-});
+
+    // 4. Real-time multi-tab/window synchronization
+    window.addEventListener("storage", function (event) {
+        if (event.key === "theme") {
+            applyTheme(event.newValue || "dark");
+        }
+    });
+})();

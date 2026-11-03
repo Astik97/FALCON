@@ -6,15 +6,10 @@
     <title>Login - Crime Alert System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='detection/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 </head>
 <body>
     <div class="auth-container">
-        <div class="auth-top-bar">
-            <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme" aria-label="Toggle Theme">
-                <i class="fas fa-sun"></i>
-            </button>
-        </div>
-        
         <div class="auth-logo">
             <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Falcon Security Logo">
         </div>
@@ -54,7 +49,5 @@
             Don't have an account? <a href="{{url_for('register')}}">Register here</a>
         </p>
     </div>
-
-    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
     --card-shadow: rgba(0, 0, 0, 0.35);
 }
 
-body.light-theme {
+:root.light-theme, html.light-theme, body.light-theme {
     --bg-darkest: #f4f6f9;
     --bg-dark: #ffffff;
     --bg-medium: #e2e8f0;
@@ -133,7 +133,7 @@ h1 {
     outline: none;
 }
 
-body.light-theme .input-group input {
+.light-theme .input-group input {
     border-color: #cbd5e1;
 }
 

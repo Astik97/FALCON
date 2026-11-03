@@ -14,7 +14,7 @@
     --card-shadow: rgba(0, 0, 0, 0.3);
 }
 
-body.light-theme {
+:root.light-theme, html.light-theme, body.light-theme {
     --bg-darkest: #f4f6f9;      /* Light grayish-blue background */
     --bg-dark: #ffffff;         /* Pure white for cards and sidebars */
     --bg-medium: #e2e8f0;       /* Light gray for active/hover states */
