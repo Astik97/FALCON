@@ -5,6 +5,7 @@ async function fetchHistory() {
     const data = await res.json();
     const body = document.getElementById('historyBody');
     body.innerHTML = '';
+
     data.forEach(a => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
@@ -22,6 +23,7 @@ async function fetchHistory() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+
   // initial fetch and interval
   fetchHistory();
   setInterval(fetchHistory, 3000); // refresh every 3s
@@ -30,32 +32,39 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('sendBtn').addEventListener('click', async () => {
     const phone = document.getElementById('phone').value.trim();
     let message = document.getElementById('message').value.trim();
-    if (!phone) { alert('Enter phone'); return; }
-    if (!message) {
-      // set default manual message
+
+    if (!phone) {
+      alert('Enter phone'); 
+      return; 
+    }
+
+    if (!message) {       // set default manual message
       message = `HELP NEEDED: Please check the monitored location. Time: ${new Date().toLocaleString()}`;
     }
-    document.getElementById('sendStatus').textContent = 'Sending...';
 
+    document.getElementById('sendStatus').textContent = 'Sending...';
+    
     try {
       const res = await fetch('/send_alert', {
         method: 'POST',
         headers: {'Content-Type':'application/json'},
         body: JSON.stringify({phone, message})
       });
+
       const result = await res.json();
       if (result.status === 'ok') {
-        document.getElementById('sendStatus').textContent = 'Sent ✔';
-        // Clear inputs after successful send:
+        document.getElementById('sendStatus').textContent = 'Sent ✔';         // Clear inputs after successful send: -->
+
         document.getElementById('phone').value = ''; // UNCOMMENTED
         document.getElementById('message').value = ''; // UNCOMMENTED
       } else {
         document.getElementById('sendStatus').textContent = 'Error: ' + (result.message || 'send failed');
       }
+
     } catch (err) {
       document.getElementById('sendStatus').textContent = 'Network error';
     }
-    // refresh history quickly
-    fetchHistory();
+
+    fetchHistory();     // refresh history quickly
   });
 });

@@ -1,5 +1,6 @@
 import torch
 from ultralytics import YOLO
+from config import DATASET_YAML
 
 def main():
 # Load a YOLOv8 Nano model configuration (can also use yolov8s.yaml, yolov8m.yaml etc.)
@@ -8,7 +9,7 @@ def main():
 
 # Train the model on your custom dataset
     model.train (
-    data="train_detect_weapons/data.yaml",  # path to your dataset configuration file
+    data=DATASET_YAML,  # path to your dataset configuration file
     epochs=50,
     imgsz=640,
     device=0
@@ -16,3 +17,4 @@ def main():
     
 if __name__ == "__main__":
     main()
+    

@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_NAME = "detections.db"
+DB_NAME = "database/detections.db"
 
 def init_db():
     """Creates the database and the table if they don't exist."""
@@ -22,7 +22,7 @@ def init_db():
 
     conn.commit()
     conn.close()
-    print("[INFO] Database initialized successfully.")
+    # print("[INFO] Database initialized successfully.")
 
 # Function to add a detection
 def insert_detection(weapon, conf, current_time, cam, filepath, video_path):
