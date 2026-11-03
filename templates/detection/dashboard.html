@@ -6,54 +6,51 @@
   <title>Crime Alert & Reporting Dashboard</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='detection/dashboard.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
-  <script src="{{url_for('static', filename='js/theme.js')}}"></script>
-  
 </head>
 <body>
-  <!-- Top Header -->
-  <header class="top-header">
-    <div class="menu-toggle" id="menu-toggle">&#9776;</div>
-    <h1>Crime Alert & Reporting Dashboard</h1>
-  </header>
-
-  <!-- Sidebar Menu -->
-  <nav class="sidebar" id="sidebar">
-
-    <div class="sidebar-logo">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Falcon Security Logo">
-    </div>
-    <ul>
-         <li><a href="#" class="nav-link active"><i class="fas fa-home"></i> Overview</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Live</a></li>
-                    <li><a href="{{url_for('alerts')}}" class="nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
-                    <li><a href="{{url_for('detected_weapons')}}" class="nav-link"><i class="fas fa-crosshairs"></i> Detected Weapons</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-map-marker-alt"></i> Locations</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-file-alt"></i> Reports</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
-                    <li><a href="#" class="nav-link"><i class="fas fa-question-circle"></i> Help</a></li>
-    </ul>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="main-content" id="main-content">
-    <header class="sub-header">
-        <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search Alerts, or Defenses...">
-                </div>
-                <div class="user-info">
-                    <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">
-                        <i class="fas fa-sun"></i> 
-                    </button>
-                        <span class="welcome-text">Welcome, {{username}}</span>
-                        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
-            </div>
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+        <h1>Crime Alert & Reporting Dashboard</h1>
     </header>
-            <section class="overview-cards">
-                <div class="card">
-                    <h3>Total Incidents</h3>
-                    <div class="card-content-bottom">
+    
+    <!-- Sidebar Menu -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-logo">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Falcon Security Logo">
+        </div>
+        <ul>
+            <li><a href="#" class="nav-link active"><i class="fas fa-home"></i> Overview</a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-chart-line"></i> Live</a></li>
+            <li><a href="{{url_for('alerts')}}" class="nav-link"><i class="fas fa-bell"></i> Alerts</a></li>
+            <li><a href="{{url_for('detected_weapons')}}" class="nav-link"><i class="fas fa-crosshairs"></i> Detected Weapons</a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-map-marker-alt"></i> Locations</a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-file-alt"></i> Reports</a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="#" class="nav-link"><i class="fas fa-question-circle"></i> Help</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+        <header class="sub-header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search Alerts, or Defenses...">
+            </div>
+            <div class="user-info">
+                <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">
+                    <i class="fas fa-sun"></i> 
+                </button>
+                <span class="welcome-text">Welcome, {{username}}</span>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            </div>
+        </header>
+        
+        <section class="overview-cards">
+            <div class="card">
+                <h3>Total Incidents</h3>
+                <div class="card-content-bottom">
                     <p class="card-value" id="total-incidents">0</p>
                     <div class="status-indicator">
                         <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Total Incidents Chart" class="chart-image" id="total-incidents-chart">
@@ -61,102 +58,112 @@
                     </div>
                 </div>
             </div>
-                <div class="card">
-                    <h3>Active Alerts</h3>
-                    <div class="card-content-bottom">
+
+            <div class="card">
+                <h3>Active Alerts</h3>
+                <div class="card-content-bottom">
                     <p class="card-value" id="active-alerts">0</p>
                     <div class="status-indicator">
                         <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="Active Alerts Chart" class="chart-image" id="active-alerts-chart">
-                        <a href="{{url_for('alerts')}}" class="btn view-alerts-btn">High Priority Alerts
+                        <a href="{{url_for('alerts')}}" class="btn view-alerts-btn">
+                            High Priority Alerts
                         </a>
                     </div>
                 </div>
             </div>
-                <div class="card">
-                    <h3>Detected Weapons</h3>
-                    <div class="card-content-bottom">
+            
+            <div class="card">
+                <h3>Detected Weapons</h3>
+                <div class="card-content-bottom">
                     <p class="card-value" id="detected-weapons">0</p>
                     <div class="status-indicator">
                         <img src="{{ url_for('static', filename='images/logo3.png') }}" alt="Detected Weapons Chart" class="chart-image" id="detected-weapons-chart">
-                        <a href="{{url_for('detected_weapons')}}" class="btn view-alerts-btn">Detected Weapons
+                        <a href="{{url_for('detected_weapons')}}" class="btn view-alerts-btn">
+                            Detected Weapons
                         </a>
                     </div>
                 </div>
             </div>
-                <div class="card system-health">
-                    <h3>System Health</h3>
-                    <p class="card-value"><i class="fas fa-check-circle"></i> AI Systems Operational</p>
-                    <p class="card-subtext" id="system-time">Last Checked: Updating...</p>
-                </div>
-            </section>
+            
+            <div class="card system-health">
+                <h3>System Health</h3>
+                <p class="card-value"><i class="fas fa-check-circle"></i> AI Systems Operational</p>
+                <p class="card-subtext" id="system-time">Last Checked: Updating...</p>
+            </div>
+        </section>
+        
+        <section class="dashboard-section-two">
+            <div class="card recent-alerts">
+                <h2>Recent Alerts</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Location</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-            <section class="dashboard-section-two">
-                <div class="card recent-alerts">
-                    <h2>Recent Alerts</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Location</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td></td>
-                                <td>Office Chamber</td>
-                                <td></td>
-                                <td>New</td>
-                                <td><a href="#">View</a></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Main Lobby</td>
-                                <td></td>
-                                <td>Investigating</td>
-                                <td><a href="#">View</a></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td>Entrance Gate</td>
-                                <td></td>
-                                <td>Resolved</td>
-                                <td><a href="#">View</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <button class="btn view-all-btn">View All Alerts</button>
-                </div>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>Office Chamber</td>
+                            <td></td>
+                            <td>New</td>
+                            <td><a href="#">View</a></td>
+                        </tr>
 
-                <div class="card live-map">
-                    <h2>Live Map</h2>
-                    <div class="map-placeholder">
-                        <img src="{{ url_for('static', filename='images/map.png') }}" alt="Live Map" style="width:100%; height: auto; border-radius: 8px;">
-                    </div>
-                    <div class="map-legend">
-                        <div><span class="legend-dot active-serious"></span> Active Serious</div>
-                        <div><span class="legend-dot active-concern"></span> Active Concern</div>
-                        <div><span class="legend-dot active-alerts"></span> Active Alerts</div>
-                    </div>
-                </div>
-            </section>
+                        <tr>
+                            <td></td>
+                            <td>Main Lobby</td>
+                            <td></td>
+                            <td>Investigating</td>
+                            <td><a href="#">View</a></td>
+                        </tr>
 
-            <section class="card detected-weapon-images">
-                <div class="card-header-with-controls">
-                    <h2>Detected Weapon Images</h2>
-                    <div class="controls">
-                        <span>Sort by: </span>
-                        <select>Type
-                            <option value="newest">Newest</option>
-                            <option value="oldest">Oldest</option>
-                        </select>
-                        <button class="btn mark-false-positive-btn">Mark as False Positive</button>
-                    </div>
+                        <tr>
+                            <td></td>
+                            <td>Entrance Gate</td>
+                            <td></td>
+                            <td>Resolved</td>
+                            <td><a href="#">View</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn view-all-btn">View All Alerts</button>
+            </div>
+            
+            <div class="card live-map">
+                <h2>Live Map</h2>
+                <div class="map-placeholder">
+                    <img src="{{ url_for('static', filename='images/map.png') }}" alt="Live Map" style="width:100%; height: auto; border-radius: 8px;">
                 </div>
-                <div class="image-grid">
-                    <!-- Weapon images/videos will be dynamically loaded here -->
+                
+                <div class="map-legend">
+                    <div><span class="legend-dot active-serious"></span> Active Serious</div>
+                    <div><span class="legend-dot active-concern"></span> Active Concern</div>
+                    <div><span class="legend-dot active-alerts"></span> Active Alerts</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="card detected-weapon-images">
+            <div class="card-header-with-controls">
+                <h2>Detected Weapon Images</h2>
+                <div class="controls">
+                    <span>Sort by: </span>
+                    <select>Type
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                    </select>
+                    <button class="btn mark-false-positive-btn">Mark as False Positive</button>
+                </div>
+            </div>
+            
+            <div class="image-grid">
+                <!-- Weapon images/videos will be dynamically loaded here -->
                 </div>
                 <div class="pagination">
                     <span>1,</span>
@@ -164,11 +171,14 @@
                     <span>3...</span>
                     <span>Next</span>
                 </div>
-            </section>
-        </main>
-        <div id="overlay"></div>
-    </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="overlay"></div>
     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+    <script src="{{url_for('static', filename='js/theme.js')}}"></script>
                
 </body>
 </html>

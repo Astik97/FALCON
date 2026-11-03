@@ -5,11 +5,11 @@ Automatic Crime Alert & Reporting System
 
 1. Run YOLO Detection
 
-2. Run YOLO Training
+2. Run RTSP Detection
 
-3. Run RTSP Detection
+3. Test Alert Module
 
-4. Test Alert Module
+4. Run Flask App
 
 5. Exit
 """
